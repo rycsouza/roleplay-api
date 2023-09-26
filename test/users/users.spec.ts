@@ -219,6 +219,13 @@ test.group('User', (group) => {
     user = newUser
   })
 
+  group.after(async () => {
+    await supertest(BASE_URL)
+      .delete('/sessions')
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200)
+  })
+
   group.beforeEach(async () => {
     await Database.beginGlobalTransaction()
   })
